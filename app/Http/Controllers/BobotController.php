@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TopsisHasil;
+use App\Models\BobotKriteria;
 use Illuminate\Http\Request;
 
-class TopsisController extends Controller
+class BobotController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,9 @@ class TopsisController extends Controller
      */
     public function index()
     {
-        $hasil = TopsisHasil::orderBy('nilai_preferensi', 'desc')->get();
-        return view('admin.topsis.index', compact('hasil'));
+        $bobotKriteria = BobotKriteria::all();
+
+        return view('admin.bobot.index', compact('bobotKriteria'));
     }
 
     /**
@@ -36,7 +37,11 @@ class TopsisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $bobotKriteria = new BobotKriteria;
+        $bobotKriteria->fill($request->all());
+        $bobotKriteria->save();
+
+        return redirect()->back()->with('success', 'Bobot Kriteria berhasil ditambahkan');
     }
 
     /**
@@ -68,9 +73,10 @@ class TopsisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BobotKriteria $bobot)
     {
-        //
+        $bobot->update($request->except('_token'));
+        return redirect()->back()->with('success', 'Bobot Kriteria berhasil diubah');
     }
 
     /**
@@ -79,8 +85,9 @@ class TopsisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BobotKriteria $bobot)
     {
-        //
+        $bobot->delete();
+        return redirect()->back()->with('delete', 'Bobot Kriteria berhasil dihapus');
     }
 }

@@ -5,7 +5,7 @@
             <!-- /.login-logo -->
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                    <h1 class="my-0"><b>Buku</b>KAS</h5>
+                    <h1 class="my-0"><b>SPK</b>Pegawai Terbaik</h5>
                 </div>
                 <div class="card-body">
                     @if ($errors->any())

@@ -15,6 +15,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Karyawan</th>
+                    <th>Tahun</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -22,12 +23,13 @@
                 @foreach ($kemampuan as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->karyawan->nama }}</td>
+                        <td class="text-capitalize">{{ $item->karyawan->nama }}</td>
+                        <td>{{ $item->tahun }}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary" data-toggle="modal"
+                            {{-- <button class="btn btn-sm btn-primary" data-toggle="modal"
                                 data-target="#editKemampuan-{{ $item->id }}">
                                 <i class="fas fa-edit"></i>
-                            </button>
+                            </button> --}}
                             <button class="btn btn-sm btn-warning" data-toggle="modal"
                                 data-target="#showKemampuan-{{ $item->id }}">
                                 <i class="fas fa-eye"></i>
@@ -36,7 +38,7 @@
                                 data-target="#deleteKemampuan-{{ $item->id }}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                            @include('admin.kemampuan.edit')
+                            {{-- @include('admin.kemampuan.edit') --}}
                             @include('admin.kemampuan.show')
                             @include('admin.kemampuan.delete')
                         </td>

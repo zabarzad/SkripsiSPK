@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('penilaians', function (Blueprint $table) {
             $table->id();
             $table->foreignId('karyawan_id')->constrained();
+            $table->string('tahun');
             $table->float('kehadiran', 8, 2)->nullable();
             $table->float('seragam', 8, 2)->nullable();
             $table->float('kebersihan', 8, 2)->nullable();
-            $table->integer('kemampuan_id')->nullable();
+            $table->integer('kemampuan_id')->default(0); // Mendapatkan nilai dari foreign id kemampuan
             $table->integer('objektivitas_id')->default(0); // Mendapatkan nilai dari foreign id objektivitas
             $table->timestamps();
         });

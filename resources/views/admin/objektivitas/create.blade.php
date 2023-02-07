@@ -29,6 +29,16 @@
                                     id="posisi">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="inputPosisi" class="col-sm-6 col-form-label">Tahun</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" name="tahun" required>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                            </div>
+                        </div>
                         <input type="hidden" class="form-control" value="" id="posisi_id" name="posisi_id">
                     </div>
                     @include('admin.components.button', ['submit' => 'submit', 'close' => 'close'])

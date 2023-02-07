@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('topsis_keputusan_ternormalisasis', function (Blueprint $table) {
+        Schema::create('topsis_nilai_max_mins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('karyawan_id')->constrained();
-            $table->integer('tahun')->nullable();
+            $table->integer('tahun');
+            $table->string('type'); // Type berisi MIN atau MAX
             $table->integer('k1')->nullable();
             $table->integer('k2')->nullable();
             $table->integer('k3')->nullable();
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('topsis_keputusan_ternormalisasis');
+        Schema::dropIfExists('topsis_nilai_max_mins');
     }
 };

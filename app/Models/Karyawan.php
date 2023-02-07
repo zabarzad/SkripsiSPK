@@ -47,6 +47,11 @@ class Karyawan extends Model
 
     public function wp()
     {
-        return $this->hasOne(WpHasil::class);
+        return $this->hasMany(WpHasil::class);
+    }
+
+    public function topsis()
+    {
+        return $this->hasMany(TopsisHasil::class);
     }
 }

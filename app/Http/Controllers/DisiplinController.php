@@ -23,8 +23,17 @@ class DisiplinController extends Controller
 
     public function store(Request $request)
     {
-        $data = Disiplin::create($request->except('_token', 'method'));
-        $this->toDisiplin($data);
+        $data = Disiplin::where([
+            ['karyawan_id', $request->karyawan_id],
+            ['tahun', $request->tahun]
+        ])->first();
+
+        if ($data) {
+            return redirect()->route('disiplin.index')->with('delete', 'Data Disiplin Telah Ada');
+        } else {
+            $data = Disiplin::create($request->except('_token', 'method'));
+            $this->STORE_DISIPLIN($data);
+        }
 
         return redirect()->route('disiplin.index')->with('success', 'Data Disiplin Berhasil Ditambahkan');
     }
@@ -32,7 +41,7 @@ class DisiplinController extends Controller
     public function update(Request $request, Disiplin $disiplin)
     {
         $disiplin->update($request->except('_token', 'method'));
-        $this->toDisiplin($disiplin);
+        $this->STORE_DISIPLIN($disiplin);
 
         return redirect()->route('disiplin.index')->with('success', 'Data Disiplin Berhasil Diubah');
     }
@@ -40,7 +49,7 @@ class DisiplinController extends Controller
     public function destroy(Disiplin $disiplin)
     {
         // Delete di table penilaian
-        $this->deleteDisiplin($disiplin);
+        $this->DELETE_DISIPLIN($disiplin);
         $disiplin->delete();
 
         return redirect()->route('disiplin.index')->with('success', 'Data Disiplin Berhasil Dihapus');

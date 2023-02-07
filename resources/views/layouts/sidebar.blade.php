@@ -45,9 +45,9 @@
                     </a>
                 </li>
                 <li
-                    class="nav-item {{ Route::is('karyawan.index') | Route::is('posisi.index') | Route::is('indikator.index') ? 'menu-is-opening menu-open' : '' }}">
+                    class="nav-item {{ Route::is('karyawan.index') | Route::is('posisi.index') | Route::is('indikator.index') | Route::is('bobot.index') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="#"
-                        class="nav-link {{ Route::is('karyawan.index') | Route::is('posisi.index') | Route::is('indikator.index') ? 'active' : '' }}">
+                        class="nav-link {{ Route::is('karyawan.index') | Route::is('posisi.index') | Route::is('indikator.index') | Route::is('bobot.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-folder-open"></i>
                         <p>
                             Master
@@ -79,6 +79,15 @@
                                 <i class="nav-icon fas fa-infinity"></i>
                                 <p>
                                     Indikator
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('bobot.index') }}"
+                                class="nav-link {{ Route::is('bobot.index') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-balance-scale"></i>
+                                <p>
+                                    Bobot Kriteria
                                 </p>
                             </a>
                         </li>
@@ -124,8 +133,10 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item ">
-                    <a href="#" class="nav-link ">
+                <li
+                    class="nav-item {{ Route::is('wp.index') | Route::is('smart.index') | Route::is('topsis.index') ? 'menu-is-opening menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ Route::is('wp.index') | Route::is('smart.index') | Route::is('topsis.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-swatchbook"></i>
                         <p>
                             Hasil
@@ -134,15 +145,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('wp.index') }}" class="nav-link ">
-                                <i class="nav-icon fas fa-greater-than"></i>
+                            <a href="{{ route('wp.index') }}"
+                                class="nav-link {{ Route::is('wp.index') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-greater-than "></i>
                                 <p>
                                     Metode WP
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('smart.index') }}" class="nav-link ">
+                            <a href="{{ route('smart.index') }}"
+                                class="nav-link {{ Route::is('smart.index') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-divide"></i>
                                 <p>
                                     Metode SMART
@@ -150,7 +163,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('topsis.index') }}" class="nav-link ">
+                            <a href="{{ route('topsis.index') }}"
+                                class="nav-link {{ Route::is('topsis.index') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-equals"></i>
                                 <p>
                                     Metode TOPSIS

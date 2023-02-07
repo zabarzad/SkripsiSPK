@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('kemampuans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('karyawan_id')->constrained();
+            $table->string('tahun');
             $table->integer('kualitas_pekerjaan');
             $table->integer('kuantitas_pekerjaan');
             $table->integer('tanggung_jawab');

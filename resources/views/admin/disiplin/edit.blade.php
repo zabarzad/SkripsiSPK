@@ -66,6 +66,14 @@
                                     value="{{ $item->terlambat }}">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-6 col-form-label">Total Hari Kerja 1
+                                Periode</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" required name="total_hari_kerja"
+                                    value="{{ $item->total_hari_kerja }}">
+                            </div>
+                        </div>
                         <p class="text-center text-bold">2. SERAGAM/PENAMPILAN</p>
                         <hr>
                         <div class="form-group row">

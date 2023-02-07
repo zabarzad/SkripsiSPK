@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('topsis_keputusan_terbobots', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('karyawan_id')->constrained();
+            $table->integer('tahun')->nullable();
             $table->integer('k1')->nullable();
             $table->integer('k2')->nullable();
             $table->integer('k3')->nullable();

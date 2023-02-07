@@ -26,21 +26,23 @@
                         <td class="text-capitalize">{{ $item->karyawan->nama }}</td>
                         <td class="text-capitalize">{{ $item->posisi->nama }}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#editObj-{{ $item->posisi->id }}">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            {{-- Jika terdapat nilai objektivitas telah diisi maka akan muncul VIEW dan jika belum maka akan muncul EDIT --}}
                             @if (in_array($item->id, $objDetail->pluck('objektivitas_id')->toArray()))
                                 <button class="btn btn-sm btn-warning" data-toggle="modal"
                                     data-target="#showObj-{{ $item->id }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
+                            @else
+                                <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#editObj-{{ $item->posisi->id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                @include('admin.objektivitas.edit')
                             @endif
                             <button class="btn btn-sm btn-danger" data-toggle="modal"
                                 data-target="#deleteObj-{{ $item->id }}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                            @include('admin.objektivitas.edit')
                             @include('admin.objektivitas.show')
                             @include('admin.objektivitas.delete')
                         </td>

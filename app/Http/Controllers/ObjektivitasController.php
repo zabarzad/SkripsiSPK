@@ -8,52 +8,62 @@ use App\Models\ObjDetail;
 use App\Models\Objektivitas;
 use App\Models\Penilaian;
 use App\Models\Posisi;
-use App\Models\SmartNilaiUtility;
-use App\Models\WpHasil;
+use App\Traits\ConvertPenilaian;
+use App\Traits\HasilSmart;
+use App\Traits\HasilTopsis;
 use App\Traits\HasilWP;
 use Illuminate\Http\Request;
 
 class ObjektivitasController extends Controller
 {
     use HasilWP;
+    use HasilTopsis;
+    use HasilSmart;
+    use ConvertPenilaian;
 
     public function index()
     {
-        $karyawan = Karyawan::all(); // Digunakan untuk tambah karyawan
-        $posisi = Posisi::all(); // Digunakan untuk tambah posisi
-        $items = Objektivitas::all();
-        $objDetail = ObjDetail::all();
-        $indikator = IndikatorKerja::all();
+        $karyawan   = Karyawan::all(); // Digunakan untuk tambah karyawan
+        $posisi     = Posisi::all(); // Digunakan untuk tambah posisi
+        $items      = Objektivitas::all();
+        $objDetail  = ObjDetail::all();
+        $indikator  = IndikatorKerja::all();
 
         return view('admin.objektivitas.index', compact('items', 'posisi', 'karyawan', 'indikator', 'objDetail'));
     }
 
     public function store(Request $request)
     {
-        $objektivitas = Objektivitas::create($request->except('_token'));
+        // Mendapatkan data sesuai karyawan dan tahun yang dipilih
+        $penilaian = Penilaian::where([
+            ['karyawan_id', $request->karyawan_id],
+            ['tahun', $request->tahun]
+        ])->first();
 
-        $penilaian = Penilaian::where('karyawan_id', $objektivitas->karyawan_id)->first();
+        // Pengecekan apakah data penilaian kemampuan ada/tidak
+        if ($penilaian == null || $penilaian->kemampuan_id == 0) {
+            return redirect()->route('objektivitas.index')->with('delete', 'Anda belum menambahkan Nilai Kemampuan Umum untuk karyawan yang dipilih');
+        }
+
+        // Pengecekan apakah data penilaian disiplin ada/tidak
+        if ($penilaian->kehadiran == 0 || $penilaian->seragam == 0 || $penilaian->kebersihan == 0) {
+            return redirect()->route('objektivitas.index')->with('delete', 'Anda belum menambahkan Nilai Disiplin untuk karyawan yang dipilih');
+        }
+
+        // Membuat nilai objektivitas dan mengupdate pada tabel penilaian
+        $objektivitas = Objektivitas::create($request->except('_token', 'method'));
+
         $penilaian->update([
             'objektivitas_id' => $objektivitas->id
         ]);
-
-        // //query all karyawan
-        // $karyawan = Karyawan::all();
-        // //find karyawan_id on penilaian table
-        // $penilaianObjektivitas = Penilaian::find($request->karyawan_id);
-        // //find karyawan_id on smart_nilai_utility table
-        // $nilaiUlility = SmartNilaiUtility::find($request->karyawan_id);
-        // $nilaiUlility->update([
-        //     'kl' => $penilaianObjektivitas - ((min($karyawan) / max($karyawan)) - min($karyawan)),
-        // ]);
 
         return redirect()->back()->with('success', 'Objektivitas berhasil ditambahkan');
     }
 
     public function update(Request $request, Objektivitas $objektivita)
     {
-        $nilai = 0;
-        $indikator   = count($request->poin);
+        $nilai      = 0;
+        $indikator  = count($request->poin);
 
         for ($i = 0; $i < $indikator; $i++) {
             $item = ObjDetail::create([
@@ -71,18 +81,23 @@ class ObjektivitasController extends Controller
             'total_poin' => $total_nilai
         ]);
 
-        // Metode WP
-        $this->hasil_wp_objektivitas($objektivita);
+        // Mendapatkan data sesuai karyawan dan tahun yang dipilih
+        $penilaian = Penilaian::where([
+            ['karyawan_id', $objektivita->karyawan_id],
+            ['tahun', $objektivita->tahun]
+        ])->first();
+
+        // Update nilai pada tiap metode
+        $this->WP_SYNC_ONE($penilaian);
+        $this->TOPSIS_SYNC($penilaian);
+        $this->SMART_SYNC($penilaian);
 
         return redirect()->back()->with('success', 'Objektivitas berhasil ditambahkan');
     }
 
     public function destroy(Objektivitas $objektivita)
     {
-        $penilaian = Penilaian::select('objektivitas_id')->where('karyawan_id', $objektivita->karyawan_id)->first();
-        $penilaian->update([
-            'objektivitas_id' => 0
-        ]);
+        $this->DELETE_OBJEKTIVITAS($objektivita);
         ObjDetail::where('objektivitas_id', $objektivita->id)->delete();
         $objektivita->delete();
 

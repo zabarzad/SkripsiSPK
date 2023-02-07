@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('wp_hasils', function (Blueprint $table) {
             $table->id();
             $table->foreignId('karyawan_id')->constrained();
+            $table->integer('tahun')->nullable();
             $table->float('alternatif_s', 8, 2)->default(0);
             $table->float('alternatif_v', 8, 2)->default(0);
             $table->timestamps();

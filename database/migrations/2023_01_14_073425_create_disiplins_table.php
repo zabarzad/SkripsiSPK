@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('disiplins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('karyawan_id')->constrained();
+            $table->string('tahun');
             $table->integer('jumlah_kehadiran');
             $table->integer('sakit');
             $table->integer('ijin');

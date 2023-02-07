@@ -8,17 +8,17 @@
         <table id="table" class="table table-bordered table-hover bg-white">
             <thead>
                 <tr>
+                    <th class="text-center">Ranking</th>
                     <th>Nama</th>
-                    <th>Hasil</th>
-                    <th>Rangking</th>
+                    <th>Nilai Preferensi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($hasil as $item)
                     <tr>
-                        <td class="text-capitalize">{{ $item->nama }}</td>
-                        <td class="text-capitalize">{{ $item->nama }}</td>
-                        <td class="text-capitalize">{{ $item->nama }}</td>
+                        <td width="12%" class="text-center"> {{ $loop->iteration }}</td>
+                        <td class="text-capitalize">{{ $item->karyawan->nama }}</td>
+                        <td class="text-capitalize">{{ $item->nilai_preferensi }}</td>
                     </tr>
                 @endforeach
             </tbody>

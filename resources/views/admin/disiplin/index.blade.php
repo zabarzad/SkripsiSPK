@@ -15,7 +15,8 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Presentase Kehadiran</th>
+                    <th>Tahun</th>
+                    <th>Nilai Kehadiran</th>
                     <th>Nilai Penampilan</th>
                     <th>Nilai Kebersihan Ruang Kerja</th>
                     <th>Action</th>
@@ -25,10 +26,11 @@
                 @foreach ($disiplin as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->karyawan->nama }}</td>
+                        <td class="text-capitalize">{{ $item->karyawan->nama }}</td>
+                        <td>{{ $item->tahun }}</td>
                         @foreach ($penilaian as $p)
                             @if ($p->karyawan_id == $item->karyawan_id)
-                                <td>{{ $p->kehadiran }}%</td>
+                                <td>{{ $p->kehadiran }}</td>
                                 <td>{{ $p->seragam }}</td>
                                 <td>{{ $p->kebersihan }}</td>
                             @endif

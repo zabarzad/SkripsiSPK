@@ -6,12 +6,14 @@ use App\Models\Karyawan;
 use App\Models\Kemampuan;
 use App\Models\Penilaian;
 use App\Models\SmartNilaiUtility;
+use App\Traits\ConvertPenilaian;
 use App\Traits\HasilWP;
 use Illuminate\Http\Request;
 
 class KemampuanController extends Controller
 {
     use HasilWP;
+    use ConvertPenilaian;
 
     public function index()
     {
@@ -23,15 +25,28 @@ class KemampuanController extends Controller
 
     public function store(Request $request)
     {
+        // Mendapatkan data sesuai karyawan dan tahun yang dipilih
+        $penilaian = Penilaian::where([
+            ['karyawan_id', $request->karyawan_id],
+            ['tahun',    $request->tahun]
+        ])->first();
+
+        // Jika data yang didapatkan tidak ada maka:
+        // Muncul alert untuk menambahkan data nilai disiplin 
+        if ($penilaian == null || ($penilaian->kehadiran == 0 && $penilaian->seragam == 0 && $penilaian->kebersihan == 0)) {
+            return redirect()->route('kemampuan.index')->with('delete', 'Anda belum menambahkan Nilai Disiplin untuk karyawan yang dipilih');
+        }
+
+        // Buat data kemampuan 
         $kemampuan = Kemampuan::create($request->except('_token', 'method'));
 
-        // Input ke Table Penilaian
-        Penilaian::where('karyawan_id', $kemampuan->karyawan_id)->update([
+        // Update data ke Tabel Penilaian
+        $penilaian->update([
             'kemampuan_id' => $kemampuan->id
         ]);
 
-        // Metode WP
-        $this->hasil_wp_kemampuan($kemampuan);
+        // Update nilai pada metode WP
+        // $this->WP_KEMAMPUAN($kemampuan);
 
         // // Metode Smart
         // $karyawan = Karyawan::all();
@@ -55,7 +70,7 @@ class KemampuanController extends Controller
         return redirect()->route('kemampuan.index')->with('success', 'Data Disiplin Berhasil Ditambahkan');
     }
 
-
+    // !! Method ini belum digunakan
     public function update(Request $request, Kemampuan $kemampuan)
     {
         $kemampuan->update($request->except('_token', 'method'));
@@ -66,9 +81,7 @@ class KemampuanController extends Controller
     public function destroy(Kemampuan $kemampuan)
     {
         // Delete di table penilaian
-        Penilaian::where('karyawan_id', $kemampuan->karyawan_id)->update([
-            'kemampuan_id' => 0
-        ]);
+        $this->DELETE_KEMAMPUAN($kemampuan);
         $kemampuan->delete();
 
         return redirect()->route('kemampuan.index')->with('success', 'Data Kemampuan Berhasil Dihapus');

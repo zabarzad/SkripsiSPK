@@ -16,7 +16,7 @@ class WpController extends Controller
      */
     public function index()
     {
-        $hasil = WpHasil::orderBy('alternatif_v')->get();
+        $hasil = WpHasil::orderBy('alternatif_v', 'desc')->get();
         return view('admin.wp.index', compact('hasil'));
     }
 
@@ -27,7 +27,7 @@ class WpController extends Controller
      */
     public function proses()
     {
-        $this->wp_proses();
+        $this->WP_SYNC();
         return redirect()->back();
     }
 
@@ -82,8 +82,9 @@ class WpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(WpHasil $wp)
     {
-        //
+        $wp->delete();
+        return redirect()->back()->with('delete', 'Data berhasil dihapus');
     }
 }

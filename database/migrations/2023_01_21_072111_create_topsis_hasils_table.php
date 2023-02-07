@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('topsis_hasils', function (Blueprint $table) {
             $table->id();
-            $table->integer('hasil');
+            $table->foreignId('karyawan_id')->constrained();
+            $table->integer('tahun')->nullable();
+            $table->float('d_max', 8, 2);
+            $table->float('d_min', 8, 2);
+            $table->float('nilai_preferensi', 8, 2);
             $table->timestamps();
         });
     }

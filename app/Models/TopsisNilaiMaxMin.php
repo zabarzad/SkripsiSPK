@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TopsisKeputusanTernormalisasi extends Model
+class TopsisNilaiMaxMin extends Model
 {
     use HasFactory;
     protected $guarded = [];

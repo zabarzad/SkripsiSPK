@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BobotController;
 use App\Http\Controllers\DisiplinController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndikatorKerjaController;
@@ -33,6 +34,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('wp', [WpController::class, 'index'])->name('wp.index');
+    Route::delete('wp/{wp}', [WpController::class, 'destroy'])->name('wp.destroy');
     Route::get('wp/proses', [WpController::class, 'proses'])->name('wp.proses');
     Route::apiResource('karyawan', KaryawanController::class);
     Route::apiResource('posisi', PosisiController::class);
@@ -42,4 +44,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::apiResource('indikator', IndikatorKerjaController::class);
     Route::apiResource('smart', SmartController::class);
     Route::apiResource('topsis', TopsisController::class);
+    Route::apiResource('bobot', BobotController::class);
 });

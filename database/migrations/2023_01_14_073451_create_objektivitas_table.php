@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('karyawan_id')->constrained();
             $table->foreignId('posisi_id')->constrained();
+            $table->string('tahun');
             $table->string('total_poin')->nullable();
             $table->timestamps();
         });

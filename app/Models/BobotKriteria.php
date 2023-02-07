@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class BobotKriteria extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }
